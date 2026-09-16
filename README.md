@@ -41,7 +41,9 @@ command = "kalbhor.usage.open"
 description = "subscription usage"
 ```
 
-Inside the popup: `r` refreshes now, `q` or `Esc` closes it. It refreshes on
+Inside the popup: `r` refreshes now, `q`, `u` or `Esc` closes it. Because the
+popup receives all keys, pressing the same `prefix+u` chord again closes it,
+so the binding behaves like a toggle. It refreshes on
 its own every 5 minutes while open. Results under a minute old are reused when
 the popup is reopened, because the Claude usage endpoint rate limits after a
 handful of calls in a few minutes.

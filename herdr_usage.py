@@ -27,7 +27,8 @@ MIN_REFRESH_SECONDS = 30
 CACHE_REUSE_SECONDS = 60
 PANE_ENTRYPOINT = "usage"
 BAR_MIN, BAR_MAX = 8, 40
-QUIT_KEYS = {b"q", b"Q", b"\x1b", b"\x03"}
+# "u" closes too, so a prefix+u binding that opens the popup also closes it (the popup swallows the prefix byte).
+QUIT_KEYS = {b"q", b"Q", b"u", b"U", b"\x1b", b"\x03"}
 REFRESH_KEYS = {b"r", b"R"}
 
 
@@ -264,7 +265,7 @@ def cmd_watch(config: Config) -> int:
                 force = False
                 now = datetime.now(timezone.utc)
             remaining = max(0, int(config.refresh_seconds - (time.monotonic() - last_fetch)))
-            draw(render(entries, width, style, now), f"r refresh · q quit · next refresh in {remaining}s")
+            draw(render(entries, width, style, now), f"r refresh · q/u quit · next refresh in {remaining}s")
             ready, _, _ = select.select([fd], [], [], 1.0)
             if ready:
                 key = os.read(fd, 16)
