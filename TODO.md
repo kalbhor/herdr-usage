@@ -30,5 +30,5 @@ account-wide totals.
 
 ## Distribution
 
-- Add the `herdr-plugin` GitHub topic so the herdr marketplace indexes the repo.
-- Pick a license.
+- Make the repo public; the `herdr-plugin` topic is already set, so the herdr
+  marketplace will index it once it is visible.

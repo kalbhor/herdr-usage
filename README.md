@@ -19,10 +19,10 @@ Link a local checkout while developing:
 herdr plugin link /path/to/herdr-usage
 ```
 
-Or install from GitHub once published:
+Or install from GitHub:
 
 ```sh
-herdr plugin install <owner>/herdr-usage
+herdr plugin install kalbhor/herdr-usage
 ```
 
 Open the popup:
