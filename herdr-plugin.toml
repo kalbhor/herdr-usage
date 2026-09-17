@@ -2,7 +2,7 @@ id = "kalbhor.usage"
 name = "Subscription Usage"
 version = "0.1.0"
 min_herdr_version = "0.8.2"
-description = "Show coding-agent subscription usage limits (Claude Code) in a popup."
+description = "Show coding-agent subscription usage limits (Claude Code, Codex) in a popup."
 platforms = ["linux", "macos"]
 
 [[panes]]

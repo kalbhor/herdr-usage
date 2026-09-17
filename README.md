@@ -8,6 +8,8 @@ Supported services:
 
 - **Claude Code** — reads the same numbers the `/usage` command in Claude Code
   shows, via the account's OAuth usage endpoint.
+- **Codex** — reads the same rate-limit windows the Codex CLI's `/status`
+  shows, for ChatGPT plan sign-ins.
 
 Everything is Python 3.9+ standard library. No build step, no dependencies.
 
@@ -62,7 +64,7 @@ Optional `config.json` in the plugin config directory
 ```json
 {
   "refresh_seconds": 300,
-  "providers": ["claude"]
+  "providers": ["claude", "codex"]
 }
 ```
 
@@ -70,7 +72,9 @@ Optional `config.json` in the plugin config directory
 is cached in the plugin state directory so a failed refresh still shows the
 previous numbers, marked stale.
 
-## How Claude Code usage is read
+## How usage is read
+
+### Claude Code
 
 The plugin reads the OAuth token Claude Code already stores locally
 (`~/.claude/.credentials.json`, or `CLAUDE_CONFIG_DIR`, or the macOS keychain
@@ -79,7 +83,14 @@ entry `Claude Code-credentials`) and calls
 endpoint and is never written anywhere by this plugin. If the token has
 expired, open Claude Code once; it refreshes the token itself.
 
-This differs from tools like `ccusage`, which sum token counts out of local
+### Codex
+
+The plugin reads the ChatGPT OAuth token Codex stores in `~/.codex/auth.json`
+(or `CODEX_HOME`) and calls `https://chatgpt.com/backend-api/wham/usage`. The
+token is only sent to that endpoint. Sign-ins that use an API key have no plan
+limits and show a message instead. If the token has expired, run `codex` once.
+
+Both differ from tools like `ccusage`, which sum token counts out of local
 transcript files and estimate cost at API prices. Those cannot know the real
 subscription limit, so their "percent used" is an approximation. The usage
 endpoint returns the actual utilization and reset time per window.

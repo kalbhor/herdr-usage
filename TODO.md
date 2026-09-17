@@ -22,11 +22,10 @@ account-wide totals.
 
 ## More providers
 
-- Codex (OpenAI): read the OAuth token from `~/.codex/auth.json`, fetch the
-  account rate-limit windows (primary 5-hour and secondary weekly), and map
-  them onto `UsageWindow`. Add it as `providers/codex.py` and register it in
-  `PROVIDERS`.
 - Any provider added here also needs the per-pane block above.
+- Codex: `code_review_rate_limit` and `additional_rate_limits` in the usage
+  response are not rendered yet; they were null on the account used to build
+  this, so their shape is unconfirmed.
 
 ## Distribution
 

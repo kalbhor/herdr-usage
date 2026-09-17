@@ -179,7 +179,7 @@ def render_window(window: UsageWindow, label_width: int, bar_width: int, style: 
     return f"  {window.label:<{label_width}} {bar} {style.by_percent(f'{percent:3.0f}%', percent)}  {style.dim(tail)}".rstrip()
 
 
-def render_entry(entry: Entry, width: int, style: Style, now: datetime) -> List[str]:
+def render_entry(entry: Entry, width: int, style: Style, now: datetime, label_width: int) -> List[str]:
     report = entry.report
     title = report.title if report else PROVIDERS[entry.provider_id].title
     header = style.bold(title)
@@ -197,18 +197,20 @@ def render_entry(entry: Entry, width: int, style: Style, now: datetime) -> List[
     if not report.windows:
         lines.append(style.dim("  no limits reported"))
         return lines
-    label_width = min(24, max(len(w.label) for w in report.windows))
     bar_width = max(BAR_MIN, min(BAR_MAX, width - label_width - 30))
     lines.extend(render_window(w, label_width, bar_width, style, now) for w in report.windows)
     return lines
 
 
 def render(entries: List[Entry], width: int, style: Style, now: datetime) -> List[str]:
+    # One label column across providers so their bars line up.
+    labels = [w.label for e in entries if e.report for w in e.report.windows]
+    label_width = min(24, max((len(l) for l in labels), default=0))
     lines: List[str] = []
     for entry in entries:
         if lines:
             lines.append("")
-        lines.extend(render_entry(entry, width, style, now))
+        lines.extend(render_entry(entry, width, style, now, label_width))
     return lines
 
 
